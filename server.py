@@ -4,6 +4,8 @@ bleh
 import socket
 import sys
 
+print(sys.version)
+
 global HOST
 global PORT
 global S
@@ -29,9 +31,9 @@ def bind_socket():
         global PORT
         global S
 
-        print("Binding the Port" + str(PORT))
+        print("Binding the Port " + str(PORT))
 
-        S.bind(HOST,PORT)
+        S.bind((HOST,PORT))
         S.listen(5)
 
     except socket.error as msg:
@@ -52,5 +54,15 @@ def send_commands(conn):
             S.close()
         if len(str.encode(cmd)) > 0:
             conn.send(str.encode(cmd))
-            client_response = str(conn.recv(1024))
+            client_response = str(conn.recv(1024), 'udf-8')
+            print(client_response, end = "")
+
+
+def main():
+    create_socket()
+    bind_socket()
+    socket_accept()
+
+
+main()
 
